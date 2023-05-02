@@ -1,37 +1,48 @@
-let img;
-let song;
+const letters = [" ", ".", ",", "-", "*", "!", "+", "@", "#", "$"];
 
-let cap;
+let RESOLUTION = 10;
+let cam;
+
 function setup() {
-  createCanvas(400, 400);
-  cap = createCapture(VIDEO);
-  cap.hide();
-  rectMode(CENTER);
-  imageMode(CENTER);
-  noStroke();
-}
-function draw() {
-  background(50);
-  fill(255);
-  cap.loadPixels();
-  //   let d = pixelDensity();
-  //   for (let i = 0; i < d; i++) {
-  //     for (let j = 0; j < d; j++) {
-  //       index = 4 * ((y * d + j) * width * d + (x * d + i));
-  //       cap[index] = r;
-  //       cap[index + 1] = g;
-  //       cap[index + 2] = b;
-  //       cap[index + 3] = a;
-  //     }
-  //   }
-  for (let cy = 0; cy < cap.height; cy += 1) {
-    for (let cx = 0; cx < cap.width; cx += 1) {
-      stroke(0);
-      strokeWeight(1);
-      line(cx, 0, cy, 0);
-      updatePixels();
-    }
-  }
+  createCanvas(1000, 700);
+  background(0);
 
-  image(cap, width / 2, height / 2);
+  cam = createCapture(VIDEO);
+  cam.hide();
+}
+
+function draw() {
+  background(0);
+
+  cam.loadPixels(); //cam.pixels is accesible after this line!
+  let w = cam.width;
+  let h = cam.height;
+  for (let y = 0; y < h; y += RESOLUTION) {
+    stroke(255);
+    //fill(255, 100);
+    noFill();
+    beginShape();
+    for (let x = 0; x < w; x += RESOLUTION) {
+      let index = (x + y * w) * 4; // RGBA
+      let r = cam.pixels[index + 0];
+      let g = cam.pixels[index + 1];
+      let b = cam.pixels[index + 2];
+      let a = cam.pixels[index + 3];
+
+      let avg = (r + g + b) / 3;
+
+      let adjY = map(avg, 0, 255, RESOLUTION, -RESOLUTION);
+      vertex(x, y + adjY);
+    }
+    endShape();
+  }
+}
+
+function mouseWheel(event) {
+  print(event.delta);
+  if (event.delta > 0 && RESOLUTION < 15) {
+    RESOLUTION++;
+  } else if (event.delta < 0 && RESOLUTION > 5) {
+    RESOLUTION--;
+  }
 }
