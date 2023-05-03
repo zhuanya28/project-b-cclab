@@ -47,13 +47,15 @@ function trigs(w, h) {
         80
       );
       let size = map(avg, 0, 255, 0, RESOLUTION);
+
+      let adjAddition = map(avg, 0, 255, -RESOLUTION, RESOLUTION);
       triangle(
         x,
-        y + random(-RESOLUTION - 10, RESOLUTION + 10),
-        x + random(-RESOLUTION - 10, RESOLUTION + 10),
-        y,
-        x,
-        y + random(-RESOLUTION - 10, RESOLUTION + 10)
+        y + adjAddition + 10,
+        x + adjAddition + 10,
+        y + adjAddition,
+        x + adjAddition,
+        y - adjAddition - 10
       );
     }
   }
