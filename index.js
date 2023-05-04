@@ -1,12 +1,15 @@
-let RESOLUTION = 10;
+let RESOLUTION = 14;
 let cam;
+
+let currentMode = "vertexes";
 
 function preload() {
   img = loadImage("assets/TylerTheCreator_SamRock.webp");
 }
 
 function setup() {
-  createCanvas(1000, 700);
+  let canvas = createCanvas(640, 500);
+  canvas.parent("canvasContainer");
   background(0);
 
   cam = createCapture(VIDEO);
@@ -19,7 +22,34 @@ function draw() {
   cam.loadPixels(); //cam.pixels is accesible after this line!
   let w = cam.width;
   let h = cam.height;
-  trigs(w, h);
+
+  if (currentMode === "vertexes") {
+    vertexes(w, h);
+  } else if (currentMode === "circles") {
+    circles(w, h);
+  } else if (currentMode === "trigs") {
+    trigs(w, h);
+  } else if (currentMode === "rectangles") {
+    rectangles(w, h);
+  }
+
+  fill(255);
+  rect(10, 10, 50, 50);
+  rect(70, 10, 50, 50);
+  rect(130, 10, 50, 50);
+  rect(190, 10, 50, 50);
+}
+
+function mousePressed() {
+  if (dist(mouseX, mouseY, 35, 35) < 25) {
+    currentMode = "vertexes";
+  } else if (dist(mouseX, mouseY, 95, 35) < 25) {
+    currentMode = "circles";
+  } else if (dist(mouseX, mouseY, 155, 35) < 25) {
+    currentMode = "trigs";
+  } else if (dist(mouseX, mouseY, 215, 35) < 25) {
+    currentMode = "rectangles";
+  }
 }
 
 function trigs(w, h) {

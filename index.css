@@ -5,8 +5,9 @@
     align-items: center;
     justify-content: center;
     position: relative;
-min-height: 100vh;
+    min-height: 100vh;
     padding-bottom: 2.5rem;
+    margin-top: 30vh;
 }
 
 .nav {
@@ -26,11 +27,18 @@ main {
     justify-content: center;
     height: calc(100vh - 2.5rem);
     padding: 0 1rem;
+    margin: auto;
 }
 
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     height: 2.5rem;
+}
+
+
+.script-div{
+    padding: 5%;
+    background-color: black;
 }
