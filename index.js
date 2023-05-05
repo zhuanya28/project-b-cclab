@@ -1,11 +1,18 @@
 let RESOLUTION = 14;
 let cam;
+let val = false;
 
 let currentMode = "vertexes";
 
-function preload() {
-  img = loadImage("assets/TylerTheCreator_SamRock.webp");
+document
+  .getElementById("submitCustomCharacter")
+  .addEventListener("click", getVal);
+function getVal() {
+  val = document.getElementById("customCharacter").value;
+  console.log("Value updated:", val);
 }
+
+function preload() {}
 
 function setup() {
   let canvas = createCanvas(640, 500);
@@ -17,21 +24,25 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(255);
 
   cam.loadPixels(); //cam.pixels is accesible after this line!
   let w = cam.width;
   let h = cam.height;
 
-  if (currentMode === "vertexes") {
-    vertexes(w, h);
-  } else if (currentMode === "circles") {
-    circles(w, h);
-  } else if (currentMode === "trigs") {
-    trigs(w, h);
-  } else if (currentMode === "rectangles") {
-    rectangles(w, h);
+  if (val !== false) {
+    customTextFrame(w, h);
   }
+
+  // if (currentMode === "vertexes") {
+  //   vertexes(w, h);
+  // } else if (currentMode === "circles") {
+  //   circles(w, h);
+  // } else if (currentMode === "trigs") {
+  //   trigs(w, h);
+  // } else if (currentMode === "rectangles") {
+  //   rectangles(w, h);
+  // }
 
   fill(255);
   rect(10, 10, 50, 50);
@@ -43,12 +54,72 @@ function draw() {
 function mousePressed() {
   if (dist(mouseX, mouseY, 35, 35) < 25) {
     currentMode = "vertexes";
+    val = false;
   } else if (dist(mouseX, mouseY, 95, 35) < 25) {
     currentMode = "circles";
+    val = false;
   } else if (dist(mouseX, mouseY, 155, 35) < 25) {
     currentMode = "trigs";
+    val = false;
   } else if (dist(mouseX, mouseY, 215, 35) < 25) {
     currentMode = "rectangles";
+    val = false;
+  }
+}
+
+let prevPixels = [];
+function tracingThePath(w, h) {
+  for (let y = 0; y < h; y += RESOLUTION) {
+    stroke(255);
+    //fill(255, 100);
+    noFill();
+    for (let x = 0; x < w; x += RESOLUTION) {
+      let index = (x + y * w) * 4; // RGBA
+      let r = cam.pixels[index + 0];
+      let g = cam.pixels[index + 1];
+      let b = cam.pixels[index + 2];
+      //let a = cam.pixels[index + 3];
+
+      let pr = prevPixels[index + 0];
+      let pg = prevPixels[index + 1];
+      let pb = prevPixels[index + 2];
+      //let pa = prevPixels[index + 3];
+
+      let diffR = abs(r - pr);
+      let diffG = abs(g - pg);
+      let diffB = abs(b - pb);
+
+      //let diffA = a - pa;
+      noStroke();
+      fill(diffR, diffG, diffB);
+      rect(x, y, RESOLUTION, RESOLUTION);
+    }
+  }
+  prevPixels = [...cam.pixels];
+}
+
+function customTextFrame(w, h) {
+  for (let y = 0; y < h; y += RESOLUTION) {
+    stroke(255);
+    //fill(255, 100);
+    noFill();
+    for (let x = 0; x < w; x += RESOLUTION) {
+      let index = (x + y * w) * 4; // RGBA
+      let r = cam.pixels[index + 0];
+      let g = cam.pixels[index + 1];
+      let b = cam.pixels[index + 2];
+      let a = cam.pixels[index + 3];
+
+      let avg = (r + g + b) / 3;
+      if (avg > 150) {
+        fill(0);
+
+        let size = map(avg, 150, 255, 0, 2 * RESOLUTION);
+
+        textSize(size);
+        text(val, x, y);
+      }
+    }
   }
 }
 
