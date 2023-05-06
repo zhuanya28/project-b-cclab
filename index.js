@@ -3,7 +3,15 @@ let cam;
 let val = false;
 let differenceValues = [0, 0, 0];
 
-let currentMode = "vertexes";
+let modes = [
+  "customTextFrame",
+  "bwVertexesPartialScreen",
+  "bwVertexes",
+  "showTheDifference",
+  "defColorful",
+];
+
+let currentMode = 1;
 
 document
   .getElementById("submitCustomCharacter")
@@ -31,47 +39,42 @@ function draw() {
   let w = cam.width;
   let h = cam.height;
 
-  if (val !== false) {
+  // "customTextFrame",
+  // "bwVertexesPartialScreen",
+  // "bwVertexes",
+  // "showTheDifference",
+
+  if (modes[currentMode] === "customTextFrame" && val != false) {
     customTextFrame(w, h);
+  } else if (modes[currentMode] === "bwVertexesPartialScreen") {
+    bwVertexesPartialScreen(w, h);
+  } else if (modes[currentMode] === "bwVertexes") {
+    bwVertexes(w, h);
+  } else if (modes[currentMode] === "showTheDifference") {
+    showTheDifference(w, h);
+  } else if (modes[currentMode] === "defColorful") {
+    defColorful(w, h);
   }
-
-  bwVertexes(w, h);
-
-  // if (currentMode === "vertexes") {
-  //   vertexes(w, h);
-  // } else if (currentMode === "circles") {
-  //   circles(w, h);
-  // } else if (currentMode === "trigs") {
-  //   trigs(w, h);
-  // } else if (currentMode === "rectangles") {
-  //   rectangles(w, h);
-  // }
-
-  fill(255);
-  rect(10, 10, 50, 50);
-  rect(70, 10, 50, 50);
-  rect(130, 10, 50, 50);
-  rect(190, 10, 50, 50);
 }
 
-function mousePressed() {
-  if (dist(mouseX, mouseY, 35, 35) < 25) {
-    currentMode = "vertexes";
-    val = false;
-  } else if (dist(mouseX, mouseY, 95, 35) < 25) {
-    currentMode = "circles";
-    val = false;
-  } else if (dist(mouseX, mouseY, 155, 35) < 25) {
-    currentMode = "trigs";
-    val = false;
-  } else if (dist(mouseX, mouseY, 215, 35) < 25) {
-    currentMode = "rectangles";
-    val = false;
+function keyPressed() {
+  if (keyCode === RIGHT_ARROW) {
+    if (currentMode + 1 < modes.length) {
+      currentMode++;
+    } else {
+      currentMode = 0;
+    }
+  } else if (keyCode === LEFT_ARROW) {
+    if (currentMode - 1 >= 0) {
+      currentMode--;
+    } else {
+      currentMode = modes.length - 1;
+    }
   }
 }
 
 let prevPixels = [];
-function recordingTheDifference(w, h) {
+function showTheDifference(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
     stroke(255);
     //fill(255, 100);
@@ -95,7 +98,8 @@ function recordingTheDifference(w, h) {
       differenceValues[0] = diffR;
       differenceValues[1] = diffG;
       differenceValues[2] = diffB;
-      fill(differenceValues[0], differenceValues[1], differenceValues[2]);
+
+      stroke(map((diffR + diffG + diffB) / 3, 0, 255, 255, 0));
       rect(x, y, RESOLUTION, RESOLUTION);
     }
   }
@@ -115,15 +119,43 @@ function customTextFrame(w, h) {
       let a = cam.pixels[index + 3];
 
       let avg = (r + g + b) / 3;
-      if (avg > 150) {
+      if (avg > 50) {
         fill(0);
 
-        let size = map(avg, 150, 255, 0, 2 * RESOLUTION);
+        let size = map(avg, 50, 255, 0, 2 * RESOLUTION);
 
         textSize(size);
         text(val, x, y);
       }
     }
+  }
+}
+
+function bwVertexesPartialScreen(w, h) {
+  for (let y = 0; y < h; y += RESOLUTION) {
+    stroke(255);
+    //fill(255, 100);
+    noFill();
+    beginShape();
+    for (let x = 0; x < w; x += RESOLUTION) {
+      let index = (x + y * w) * 4; // RGBA
+      let r = cam.pixels[index + 0];
+      let g = cam.pixels[index + 1];
+      let b = cam.pixels[index + 2];
+      let a = cam.pixels[index + 3];
+
+      let avg = (r + g + b) / 3;
+
+      // let adjSize = map(avg, 0, 255, 0, RESOLUTION);
+      // image(img, adjSize, adjSize);
+      // // stroke(map(mouseX, 0, width, 0, 255), 0, 200);
+      if (avg > 50) {
+        stroke(map(avg, 150, 255, 0, 255));
+        let adjY = map(avg, 0, 255, RESOLUTION, -RESOLUTION);
+        vertex(x, y + adjY);
+      }
+    }
+    endShape();
   }
 }
 
@@ -145,11 +177,9 @@ function bwVertexes(w, h) {
       // let adjSize = map(avg, 0, 255, 0, RESOLUTION);
       // image(img, adjSize, adjSize);
       // // stroke(map(mouseX, 0, width, 0, 255), 0, 200);
-      if (avg > 150) {
-        stroke(map(avg, 150, 255, 0, 255));
-        let adjY = map(avg, 0, 255, RESOLUTION, -RESOLUTION);
-        vertex(x, y + adjY);
-      }
+      stroke(map(avg, 150, 255, 0, 255));
+      let adjY = map(avg, 0, 255, -RESOLUTION, RESOLUTION);
+      vertex(x, y + adjY);
     }
     endShape();
   }
@@ -169,20 +199,37 @@ function colorfulVertexes(w, h) {
       let a = cam.pixels[index + 3];
 
       let avg = (r + g + b) / 3;
-
-      // let adjSize = map(avg, 0, 255, 0, RESOLUTION);
-      // image(img, adjSize, adjSize);
-      // // stroke(map(mouseX, 0, width, 0, 255), 0, 200);
-      stroke(
-        map(x, 0, w, 0, 255),
-        map(y, 0, h, 0, 255),
-        map(RESOLUTION, 0, 20, 0, 255)
-      );
+      stroke(0);
 
       let adjY = map(avg, 0, 255, RESOLUTION, -RESOLUTION);
       vertex(x, y + adjY);
     }
     endShape();
+  }
+}
+
+function defColorful(w, h) {
+  for (let y = 0; y < h; y += RESOLUTION) {
+    for (let x = 0; x < w; x += RESOLUTION) {
+      let index = (x + y * w) * 4; // RGBA
+      let r = cam.pixels[index + 0];
+      let g = cam.pixels[index + 1];
+      let b = cam.pixels[index + 2];
+      let a = cam.pixels[index + 3];
+
+      let avg = (r + g + b) / 3;
+
+      if (avg > 50) {
+        fill("#00FFFF");
+        circle(x, y, RESOLUTION);
+
+        fill("#FFFF00");
+
+        circle(x + RESOLUTION, y, RESOLUTION);
+        fill("#FF00FF");
+        circle(x + 2 * RESOLUTION, y, RESOLUTION);
+      }
+    }
   }
 }
 function mouseWheel(event) {
