@@ -9,6 +9,7 @@ let modes = [
   "bwVertexes",
   "showTheDifference",
   "defColorful",
+  "offsetColorful",
 ];
 
 let currentMode = 1;
@@ -24,7 +25,7 @@ function getVal() {
 function preload() {}
 
 function setup() {
-  let canvas = createCanvas(640, 500);
+  let canvas = createCanvas(windowWidth, 500);
   canvas.parent("canvasContainer");
   background(0);
 
@@ -42,6 +43,10 @@ function draw() {
   if (val != false) {
     customTextFrame(w, h);
   } else if (val === false && currentMode === 0) {
+    fill(0);
+    textSize(30);
+    text(modes[currentMode], 0, 100);
+    noFill();
     textSize(20);
     text(
       "print & send your character below!",
@@ -49,13 +54,36 @@ function draw() {
       height / 2 - 100
     );
   } else if (modes[currentMode] === "bwVertexesPartialScreen") {
+    fill(0);
+    textSize(30);
+    text(modes[currentMode], 0, 100);
+    noFill();
     bwVertexesPartialScreen(w, h);
   } else if (modes[currentMode] === "bwVertexes") {
+    fill(0);
+    textSize(30);
+    text(modes[currentMode], 0, 100);
+    noFill();
     bwVertexes(w, h);
   } else if (modes[currentMode] === "showTheDifference") {
+    fill(0);
+    textSize(30);
+    text("Move faster!", 0, 100);
+    text(modes[currentMode], 0, 200);
+    noFill();
     showTheDifference(w, h);
   } else if (modes[currentMode] === "defColorful") {
+    fill(0);
+    textSize(30);
+    text(modes[currentMode], 0, 100);
+    noFill();
     defColorful(w, h);
+  } else if (modes[currentMode] === "offsetColorful") {
+    fill(0);
+    textSize(30);
+    text(modes[currentMode], 0, 100);
+    noFill();
+    offsetColorful(w, h);
   }
 }
 
@@ -84,11 +112,12 @@ function keyPressed() {
 let prevPixels = [];
 function showTheDifference(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
-    stroke(255);
-    //fill(255, 100);
-    noFill();
-    for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x + y * w) * 4; // RGBA
+    for (
+      let x = (windowWidth - w) / 2;
+      x < (windowWidth + w) / 2;
+      x += RESOLUTION
+    ) {
+      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
@@ -119,15 +148,19 @@ function customTextFrame(w, h) {
     stroke(255);
     //fill(255, 100);
     noFill();
-    for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x + y * w) * 4; // RGBA
+    for (
+      let x = (windowWidth - w) / 2;
+      x < (windowWidth + w) / 2;
+      x += RESOLUTION
+    ) {
+      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
       let a = cam.pixels[index + 3];
 
       let avg = (r + g + b) / 3;
-      if (avg > 50) {
+      if (avg > 100) {
         fill(0);
 
         let size = map(avg, 50, 255, 0, 2 * RESOLUTION);
@@ -145,8 +178,12 @@ function bwVertexesPartialScreen(w, h) {
     //fill(255, 100);
     noFill();
     beginShape();
-    for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x + y * w) * 4; // RGBA
+    for (
+      let x = (windowWidth - w) / 2;
+      x < (windowWidth + w) / 2;
+      x += RESOLUTION
+    ) {
+      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
@@ -173,8 +210,12 @@ function bwVertexes(w, h) {
     //fill(255, 100);
     noFill();
     beginShape();
-    for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x + y * w) * 4; // RGBA
+    for (
+      let x = (windowWidth - w) / 2;
+      x < (windowWidth + w) / 2;
+      x += RESOLUTION
+    ) {
+      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
@@ -195,12 +236,16 @@ function bwVertexes(w, h) {
 
 function colorfulVertexes(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
-    stroke(255);
+    stroke("#FFFF00");
     //fill(255, 100);
     noFill();
     beginShape();
-    for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x + y * w) * 4; // RGBA
+    for (
+      let x = (windowWidth - w) / 2;
+      x < (windowWidth + w) / 2;
+      x += RESOLUTION
+    ) {
+      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
@@ -218,8 +263,12 @@ function colorfulVertexes(w, h) {
 
 function defColorful(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
-    for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x + y * w) * 4; // RGBA
+    for (
+      let x = (windowWidth - w) / 2;
+      x < (windowWidth + w) / 2;
+      x += RESOLUTION
+    ) {
+      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
@@ -234,6 +283,60 @@ function defColorful(w, h) {
         circle(x + RESOLUTION, y, RESOLUTION);
         fill("#00FFFF");
         circle(x, y, RESOLUTION / 2);
+      }
+    }
+  }
+}
+
+function offsetColorful(w, h) {
+  for (let y = 0; y < h; y += RESOLUTION) {
+    for (
+      let x = (windowWidth - w) / 2;
+      x < (windowWidth + w) / 2;
+      x += RESOLUTION
+    ) {
+      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
+      let r = cam.pixels[index + 0];
+      let g = cam.pixels[index + 1];
+      let b = cam.pixels[index + 2];
+      let a = cam.pixels[index + 3];
+
+      let avg = (r + g + b) / 3;
+
+      if (avg > 100) {
+        fill("#FFFF00");
+        circle(x + 2 * RESOLUTION, y, RESOLUTION);
+        fill("#00FFFF");
+        circle(x + RESOLUTION, y, RESOLUTION);
+        fill("#FF00FF");
+        circle(x, y, RESOLUTION);
+      }
+    }
+  }
+}
+
+function offsetColorful2(w, h) {
+  for (let y = 0; y < h; y += RESOLUTION) {
+    for (
+      let x = (windowWidth - w) / 2;
+      x < (windowWidth + w) / 2;
+      x += RESOLUTION
+    ) {
+      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
+      let r = cam.pixels[index + 0];
+      let g = cam.pixels[index + 1];
+      let b = cam.pixels[index + 2];
+      let a = cam.pixels[index + 3];
+
+      let avg = (r + g + b) / 3;
+
+      if (avg > 50) {
+        fill("#FF00FF");
+        rect(x, y, RESOLUTION, RESOLUTION);
+        fill("#FFFF00");
+        rect(x + 2 * RESOLUTION, y, RESOLUTION, RESOLUTION);
+        fill("#00FFFF");
+        rect(x + 4 * RESOLUTION, y, RESOLUTION, RESOLUTION);
       }
     }
   }
