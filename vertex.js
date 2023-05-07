@@ -2,7 +2,7 @@ let RESOLUTION = 16;
 let cam;
 
 function setup() {
-  let canvas = createCanvas(windowWidth, 480);
+  let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("canvasContainer");
   background(0);
 
@@ -33,9 +33,6 @@ function vertexes(w, h) {
       let b = cam.pixels[index + 2];
       let mapX = map(x, 0, w, 0, width);
       let mapY = map(y, 0, h, 0, (width * 3) / 4);
-
-      //noFill();
-      //stroke(avg);
       noStroke();
       let colorDiff = 10;
       fill(

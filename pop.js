@@ -9,7 +9,7 @@ let currentMode = 1;
 function preload() {}
 
 function setup() {
-  let canvas = createCanvas(windowWidth, 480);
+  let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("canvasContainer");
   background(0);
 
@@ -57,11 +57,7 @@ function keyPressed() {
 
 function defColorful(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
-    for (
-      let x = (windowWidth - w) / 2;
-      x < (windowWidth + w) / 2;
-      x += RESOLUTION
-    ) {
+    for (let x = 0; x < w; x += RESOLUTION) {
       let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
@@ -69,14 +65,16 @@ function defColorful(w, h) {
       let a = cam.pixels[index + 3];
 
       let avg = (r + g + b) / 3;
+      let mapX = map(x, 0, w, 0, width);
+      let mapY = map(y, 0, h, 0, (width * 3) / 4);
 
-      if (avg > 100) {
+      if (avg > 50) {
         fill("#FFFF00");
-        circle(x + 2 * RESOLUTION, y, 2 * RESOLUTION);
+        circle(mapX + 2 * RESOLUTION, mapY, 2 * RESOLUTION);
         fill("#FF00FF");
-        circle(x + RESOLUTION, y, RESOLUTION);
+        circle(mapX + RESOLUTION, mapY, RESOLUTION);
         fill("#00FFFF");
-        circle(x, y, RESOLUTION / 2);
+        circle(mapX, mapY, RESOLUTION / 2);
       }
     }
   }
@@ -84,11 +82,7 @@ function defColorful(w, h) {
 
 function offsetColorful(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
-    for (
-      let x = (windowWidth - w) / 2;
-      x < (windowWidth + w) / 2;
-      x += RESOLUTION
-    ) {
+    for (let x = 0; x < w; x += RESOLUTION) {
       let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
@@ -96,14 +90,15 @@ function offsetColorful(w, h) {
       let a = cam.pixels[index + 3];
 
       let avg = (r + g + b) / 3;
-
-      if (avg > 100) {
+      let mapX = map(x, 0, w, 0, width);
+      let mapY = map(y, 0, h, 0, (width * 3) / 4);
+      if (avg > 50) {
         fill("#FFFF00");
-        circle(x + 2 * RESOLUTION, y, RESOLUTION);
+        circle(mapX + 2 * RESOLUTION, mapY, RESOLUTION);
         fill("#00FFFF");
-        circle(x + RESOLUTION, y, RESOLUTION);
+        circle(mapX + RESOLUTION, mapY, RESOLUTION);
         fill("#FF00FF");
-        circle(x, y, RESOLUTION);
+        circle(mapX, mapY, RESOLUTION);
       }
     }
   }
@@ -111,11 +106,7 @@ function offsetColorful(w, h) {
 
 function offsetColorful2(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
-    for (
-      let x = (windowWidth - w) / 2;
-      x < (windowWidth + w) / 2;
-      x += RESOLUTION
-    ) {
+    for (let x = 0; x < w; x += RESOLUTION) {
       let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
@@ -123,14 +114,15 @@ function offsetColorful2(w, h) {
       let a = cam.pixels[index + 3];
 
       let avg = (r + g + b) / 3;
-
+      let mapX = map(x, 0, w, 0, width);
+      let mapY = map(y, 0, h, 0, (width * 3) / 4);
       if (avg > 50) {
         fill("#FF00FF");
-        rect(x, y, RESOLUTION, RESOLUTION);
+        rect(mapX, mapY, RESOLUTION, RESOLUTION);
         fill("#FFFF00");
-        rect(x + 2 * RESOLUTION, y, RESOLUTION, RESOLUTION);
+        rect(mapX + 2 * RESOLUTION, mapY, RESOLUTION, RESOLUTION);
         fill("#00FFFF");
-        rect(x + 4 * RESOLUTION, y, RESOLUTION, RESOLUTION);
+        rect(mapX + 4 * RESOLUTION, mapY, RESOLUTION, RESOLUTION);
       }
     }
   }
