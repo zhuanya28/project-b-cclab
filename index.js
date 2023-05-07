@@ -1,4 +1,4 @@
-let RESOLUTION = 14;
+let RESOLUTION = 16;
 let cam;
 let val = false;
 let differenceValues = [0, 0, 0];
@@ -39,13 +39,15 @@ function draw() {
   let w = cam.width;
   let h = cam.height;
 
-  // "customTextFrame",
-  // "bwVertexesPartialScreen",
-  // "bwVertexes",
-  // "showTheDifference",
-
-  if (modes[currentMode] === "customTextFrame" && val != false) {
+  if (val != false) {
     customTextFrame(w, h);
+  } else if (val === false && currentMode === 0) {
+    textSize(20);
+    text(
+      "print & send your character below!",
+      width / 2 - 100,
+      height / 2 - 100
+    );
   } else if (modes[currentMode] === "bwVertexesPartialScreen") {
     bwVertexesPartialScreen(w, h);
   } else if (modes[currentMode] === "bwVertexes") {
@@ -59,13 +61,19 @@ function draw() {
 
 function keyPressed() {
   if (keyCode === RIGHT_ARROW) {
-    if (currentMode + 1 < modes.length) {
+    if (val != false) {
+      val = false;
+      currentMode++;
+    } else if (currentMode + 1 < modes.length) {
       currentMode++;
     } else {
       currentMode = 0;
     }
   } else if (keyCode === LEFT_ARROW) {
-    if (currentMode - 1 >= 0) {
+    if (val != false) {
+      val = false;
+      currentMode--;
+    } else if (currentMode - 1 >= 0) {
       currentMode--;
     } else {
       currentMode = modes.length - 1;
@@ -149,7 +157,7 @@ function bwVertexesPartialScreen(w, h) {
       // let adjSize = map(avg, 0, 255, 0, RESOLUTION);
       // image(img, adjSize, adjSize);
       // // stroke(map(mouseX, 0, width, 0, 255), 0, 200);
-      if (avg > 50) {
+      if (avg > 150) {
         stroke(map(avg, 150, 255, 0, 255));
         let adjY = map(avg, 0, 255, RESOLUTION, -RESOLUTION);
         vertex(x, y + adjY);
@@ -199,7 +207,7 @@ function colorfulVertexes(w, h) {
       let a = cam.pixels[index + 3];
 
       let avg = (r + g + b) / 3;
-      stroke(0);
+      stroke("#FFFF00");
 
       let adjY = map(avg, 0, 255, RESOLUTION, -RESOLUTION);
       vertex(x, y + adjY);
@@ -219,15 +227,13 @@ function defColorful(w, h) {
 
       let avg = (r + g + b) / 3;
 
-      if (avg > 50) {
-        fill("#00FFFF");
-        circle(x, y, RESOLUTION);
-
+      if (avg > 100) {
         fill("#FFFF00");
-
-        circle(x + RESOLUTION, y, RESOLUTION);
+        circle(x + 2 * RESOLUTION, y, 2 * RESOLUTION);
         fill("#FF00FF");
-        circle(x + 2 * RESOLUTION, y, RESOLUTION);
+        circle(x + RESOLUTION, y, RESOLUTION);
+        fill("#00FFFF");
+        circle(x, y, RESOLUTION / 2);
       }
     }
   }
