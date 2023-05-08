@@ -3,6 +3,7 @@ let cam;
 let val = "?";
 const CAM_WIDTH = 1000;
 const CAM_HEIGHT = 750;
+let fileName = 1;
 
 document
   .getElementById("submitCustomCharacter")
@@ -54,6 +55,13 @@ function customTextFrame(w, h) {
         text(val, x, y);
       }
     }
+  }
+}
+function keyPressed() {
+  if (key === "s" || key === "S") {
+    let fileNameFinal = "MIRRORbyZHUANYA" + fileName.toString();
+    saveCanvas(fileNameFinal, "jpg");
+    fileName++;
   }
 }
 function mouseWheel(event) {

@@ -2,6 +2,7 @@ const RESOLUTION = 10;
 let cam;
 const CAM_WIDTH = 1000;
 const CAM_HEIGHT = 750;
+let fileName = 1;
 
 function setup() {
   let canvas = createCanvas(CAM_WIDTH, CAM_HEIGHT);
@@ -50,5 +51,12 @@ function processPixels(w, h) {
       }
       endShape();
     }
+  }
+}
+function keyPressed() {
+  if (key === "s" || key === "S") {
+    let fileNameFinal = "MIRRORbyZHUANYA" + fileName.toString();
+    saveCanvas(fileNameFinal, "jpg");
+    fileName++;
   }
 }

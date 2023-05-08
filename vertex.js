@@ -1,17 +1,21 @@
 let RESOLUTION = 16;
 let cam;
+let CAM_HEIGHT = 750;
+let CAM_WIDTH = 1000;
+let fileName = 1;
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(CAM_WIDTH, CAM_HEIGHT);
   canvas.parent("canvasContainer");
   background(0);
 
   cam = createCapture(VIDEO);
+  cam.size(CAM_WIDTH, CAM_HEIGHT);
   cam.hide();
 }
 
 function draw() {
-  background(255);
+  background(255, 10);
 
   cam.loadPixels();
   let w = cam.width;
@@ -29,6 +33,7 @@ function vertexes(w, h) {
       let b = cam.pixels[index + 2];
       let mapX = map(x, 0, w, 0, width);
       let mapY = map(y, 0, h, 0, (width * 3) / 4);
+      let avg = (r + b + g) / 3;
       noStroke();
       let colorDiff = 10;
       fill(
@@ -37,7 +42,7 @@ function vertexes(w, h) {
         b
       ) + random(-colorDiff, colorDiff);
       beginShape();
-      let len = map(avg, 0, 255, 10, 50);
+      let len = map(avg, 0, 255, 20, 100);
       vertex(mapX + random(-len, len), mapY + random(-len, len));
       vertex(mapX + random(-len, len), mapY + random(-len, len));
       vertex(mapX + random(-len, len), mapY + random(-len, len));
@@ -45,7 +50,13 @@ function vertexes(w, h) {
     }
   }
 }
-
+function keyPressed() {
+  if (key === "s" || key === "S") {
+    let fileNameFinal = "MIRRORbyZHUANYA" + fileName.toString();
+    saveCanvas(fileNameFinal, "jpg");
+    fileName++;
+  }
+}
 function mouseWheel(event) {
   print(event.delta);
   if (event.delta > 0 && RESOLUTION < 40) {

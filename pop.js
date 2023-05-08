@@ -3,6 +3,7 @@ let cam;
 let val = false;
 const CAM_WIDTH = 1000;
 const CAM_HEIGHT = 750;
+let fileName = 1;
 
 let modes = ["defColorful", "offsetColorful", "offsetColorful2"];
 
@@ -128,6 +129,13 @@ function offsetColorful2(w, h) {
         rect(mapX + 4 * RESOLUTION, mapY, RESOLUTION, RESOLUTION);
       }
     }
+  }
+}
+function keyPressed() {
+  if (key === "s" || key === "S") {
+    let fileNameFinal = "MIRRORbyZHUANYA" + fileName.toString();
+    saveCanvas(fileNameFinal, "jpg");
+    fileName++;
   }
 }
 

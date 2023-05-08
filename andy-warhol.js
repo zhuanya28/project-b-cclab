@@ -1,13 +1,12 @@
-const letters = [" ", ".", ",", "-", "*", "!", "+", "@", "#", "$"];
-
-const CAM_WIDTH = 1000;
-const CAM_HEIGHT = 750;
+const CAM_WIDTH = 500;
+const CAM_HEIGHT = 375;
 const RESOLUTION = 10;
 let cam;
 let img; // blank
+let fileName = 1;
 
 function setup() {
-  let canvas = createCanvas(CAM_WIDTH, CAM_HEIGHT);
+  let canvas = createCanvas(CAM_WIDTH * 2, CAM_HEIGHT * 2);
   canvas.parent("canvasContainer");
   background(0);
 
@@ -28,6 +27,9 @@ function draw() {
 
   processImage(w, h);
   image(img, 0, 0);
+  image(img, 500, 0);
+  image(img, 0, 375);
+  image(img, 500, 375);
 }
 
 function processImage(w, h) {
@@ -42,57 +44,77 @@ function processImage(w, h) {
       let avg = (r + g + b) / 3;
 
       let nr, ng, nb;
-      if (x < CAM_WIDTH / 2) {
-        if (avg < 255 * 0.2) {
-          nr = 255;
-          ng = 0;
-          nb = 0;
-        } else if (avg < 255 * 0.4) {
-          nr = 255;
-          ng = 100;
-          nb = 0;
-        } else if (avg < 255 * 0.5) {
-          nr = 255;
-          ng = 100;
-          nb = 0;
-        } else if (avg < 255 * 0.6) {
-          nr = 0;
-          ng = 100;
-          nb = 255;
-        } else if (avg < 255 * 0.8) {
-          nr = 255;
-          ng = 255;
-          nb = 255;
-        } else {
-          nr = 0;
-          ng = 0;
-          nb = 0;
-        }
-      } else {
-        if (avg < 255 * 0.2) {
-          nr = 255;
-          ng = 0;
-          nb = 255;
-        } else if (avg < 255 * 0.4) {
-          nr = 200;
-          ng = 100;
-          nb = 255;
-        } else if (avg < 255 * 0.5) {
-          nr = 0;
-          ng = 255;
-          nb = 0;
-        } else if (avg < 255 * 0.6) {
+      if (x <= CAM_WIDTH / 2 && y <= CAM_HEIGHT / 2) {
+        if (avg < 255 * 0.25) {
           nr = 100;
+          ng = 255;
+          nb = 0;
+        } else if (avg < 255 * 0.5) {
+          nr = 255;
+          ng = 0;
+          nb = 100;
+        } else if (avg < 255 * 0.75) {
+          nr = 255;
           ng = 100;
-          nb = 120;
-        } else if (avg < 255 * 0.8) {
+          nb = 0;
+        } else {
+          nr = 0;
+          ng = 100;
+          nb = 255;
+        }
+      } else if (x <= CAM_WIDTH / 2 && y >= CAM_HEIGHT / 2) {
+        if (avg < 255 * 0.25) {
           nr = 255;
           ng = 0;
           nb = 255;
+        } else if (avg < 255 * 0.5) {
+          nr = 0;
+          ng = 200;
+          nb = 200;
+        } else if (avg < 255 * 0.75) {
+          nr = 0;
+          ng = 255;
+          nb = 0;
         } else {
           nr = 255;
           ng = 0;
+          nb = 255;
+        }
+      } else if (x >= CAM_WIDTH / 2 && y <= CAM_HEIGHT / 2) {
+        if (avg < 255 * 0.25) {
+          nr = 255;
+          ng = 255;
+          nb = 100;
+        } else if (avg < 255 * 0.5) {
+          nr = 100;
+          ng = 0;
+          nb = 255;
+        } else if (avg < 255 * 0.75) {
+          nr = 0;
+          ng = 0;
+          nb = 255;
+        } else {
+          nr = 0;
+          ng = 255;
+          nb = 255;
+        }
+      } else if (x >= CAM_WIDTH / 2 && y >= CAM_HEIGHT / 2) {
+        if (avg < 255 * 0.25) {
+          nr = 0;
+          ng = 255;
           nb = 0;
+        } else if (avg < 255 * 0.5) {
+          nr = 255;
+          ng = 0;
+          nb = 255;
+        } else if (avg < 255 * 0.75) {
+          nr = 0;
+          ng = 100;
+          nb = 255;
+        } else {
+          nr = 0;
+          ng = 0;
+          nb = 255;
         }
       }
 
@@ -103,4 +125,11 @@ function processImage(w, h) {
     }
   }
   img.updatePixels();
+}
+function keyPressed() {
+  if (key === "s" || key === "S") {
+    let fileNameFinal = "MIRRORbyZHUANYA" + fileName.toString();
+    saveCanvas(fileNameFinal, "jpg");
+    fileName++;
+  }
 }
