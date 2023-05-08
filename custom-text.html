@@ -12,14 +12,14 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="text-center">
     <main>
-        <a class="btn btn-xs btn-outline-danger" href="crossroads.html">CROSSROAD</a>
+        <a class="btn btn-xs btn-outline-dark m-3" href="crossroads.html">CROSSROAD</a>
+        <label for="customCharacter">Print one character:</label>
+        <input type="text" id="customCharacter" name="customCharacter" size="10">
+        <input type="submit" id="submitCustomCharacter" value="send character" />
         <div class="script-div">
             <div id="canvasContainer"></div>
-            <label for="customCharacter">Print one character:</label>
-            <input type="text" id="customCharacter" name="customCharacter" size="10">
-            <input type="submit" id="submitCustomCharacter" value="send character" />
             <script src="custom-text-script.js">
             </script>
         </div>

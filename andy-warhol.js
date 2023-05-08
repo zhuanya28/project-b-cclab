@@ -1,18 +1,18 @@
 const letters = [" ", ".", ",", "-", "*", "!", "+", "@", "#", "$"];
 
-const CAM_WIDTH = 640;
-const CAM_HEIGHT = 480;
+const CAM_WIDTH = 1000;
+const CAM_HEIGHT = 750;
 const RESOLUTION = 10;
 let cam;
 let img; // blank
 
 function setup() {
-  let canvas = createCanvas(windowWidth, CAM_HEIGHT);
+  let canvas = createCanvas(CAM_WIDTH, CAM_HEIGHT);
   canvas.parent("canvasContainer");
   background(0);
 
   cam = createCapture(VIDEO);
-  //cam.size(CAM_WIDTH, CAM_HEIGHT);
+  cam.size(CAM_WIDTH, CAM_HEIGHT);
   cam.hide();
   img = createImage(CAM_WIDTH, CAM_HEIGHT);
 }

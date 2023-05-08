@@ -1,6 +1,8 @@
 let RESOLUTION = 16;
 let cam;
 let val = false;
+const CAM_WIDTH = 1000;
+const CAM_HEIGHT = 750;
 
 let modes = ["defColorful", "offsetColorful", "offsetColorful2"];
 
@@ -9,11 +11,12 @@ let currentMode = 1;
 function preload() {}
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(CAM_WIDTH, CAM_HEIGHT);
   canvas.parent("canvasContainer");
   background(0);
 
   cam = createCapture(VIDEO);
+  cam.size(CAM_WIDTH, CAM_HEIGHT);
   cam.hide();
 }
 
@@ -58,7 +61,7 @@ function keyPressed() {
 function defColorful(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
     for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
+      let index = (x + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
@@ -83,7 +86,7 @@ function defColorful(w, h) {
 function offsetColorful(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
     for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
+      let index = (x + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
@@ -107,7 +110,7 @@ function offsetColorful(w, h) {
 function offsetColorful2(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
     for (let x = 0; x < w; x += RESOLUTION) {
-      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
+      let index = (x + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];

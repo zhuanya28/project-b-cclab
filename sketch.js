@@ -1,12 +1,15 @@
 const RESOLUTION = 10;
 let cam;
+const CAM_WIDTH = 1000;
+const CAM_HEIGHT = 750;
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(CAM_WIDTH, CAM_HEIGHT);
   canvas.parent("canvasContainer");
   background(0);
 
   cam = createCapture(VIDEO);
+  cam.size(CAM_WIDTH, CAM_HEIGHT);
   cam.hide();
 }
 

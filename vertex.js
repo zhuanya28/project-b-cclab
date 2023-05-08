@@ -22,12 +22,8 @@ function draw() {
 
 function vertexes(w, h) {
   for (let y = 0; y < h; y += RESOLUTION) {
-    for (
-      let x = (windowWidth - w) / 2;
-      x < (windowWidth + w) / 2;
-      x += RESOLUTION
-    ) {
-      let index = (x - (windowWidth - w) / 2 + y * w) * 4; // RGBA
+    for (let x = 0; x < w; x += RESOLUTION) {
+      let index = (x + y * w) * 4; // RGBA
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
