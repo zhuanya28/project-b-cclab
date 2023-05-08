@@ -25,12 +25,12 @@ ul {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 90vh;
     /* make the ul element take up the full height of the viewport */
 }
 
 li {
-    margin: 20px;
+    margin-right: 20px;
 }
 
 .btn {
@@ -88,4 +88,5 @@ video {
     z-index: 1;
     color: #fff;
     padding: 50px;
+    height: 100vh;
 }

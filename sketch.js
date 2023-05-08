@@ -35,19 +35,16 @@ function processPixels(w, h) {
 
       let avg = (r + g + b) / 3;
 
-      let mapX = map(x, 0, w, 0, width);
-      let mapY = map(y, 0, h, 0, (width * 3) / 4);
-
       beginShape();
       stroke(0);
       if (avg > 50) {
         let len = map(avg, 0, 255, 10, 50);
-        vertex(mapX + random(-len, len), mapY + random(-len, len));
-        vertex(mapX + random(-len, len), mapY + random(-len, len));
-        vertex(mapX + random(-len, len), mapY + random(-len, len));
-        vertex(mapX + random(-len, len), mapY + random(-len, len));
-        vertex(mapX + random(-len, len), mapY + random(-len, len));
-        vertex(mapX + random(-len, len), mapY + random(-len, len));
+        vertex(x + random(-len, len), y + random(-len, len));
+        vertex(x + random(-len, len), y + random(-len, len));
+        vertex(x + random(-len, len), y + random(-len, len));
+        vertex(x + random(-len, len), y + random(-len, len));
+        vertex(x + random(-len, len), y + random(-len, len));
+        vertex(x + random(-len, len), y + random(-len, len));
       }
       endShape();
     }

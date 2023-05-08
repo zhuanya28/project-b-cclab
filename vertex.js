@@ -1,4 +1,4 @@
-let RESOLUTION = 16;
+let RESOLUTION = 40;
 let cam;
 let CAM_HEIGHT = 750;
 let CAM_WIDTH = 1000;
@@ -31,8 +31,7 @@ function vertexes(w, h) {
       let r = cam.pixels[index + 0];
       let g = cam.pixels[index + 1];
       let b = cam.pixels[index + 2];
-      let mapX = map(x, 0, w, 0, width);
-      let mapY = map(y, 0, h, 0, (width * 3) / 4);
+
       let avg = (r + b + g) / 3;
       noStroke();
       let colorDiff = 10;
@@ -43,9 +42,9 @@ function vertexes(w, h) {
       ) + random(-colorDiff, colorDiff);
       beginShape();
       let len = map(avg, 0, 255, 20, 100);
-      vertex(mapX + random(-len, len), mapY + random(-len, len));
-      vertex(mapX + random(-len, len), mapY + random(-len, len));
-      vertex(mapX + random(-len, len), mapY + random(-len, len));
+      vertex(x + random(-len, len), y + random(-len, len));
+      vertex(x + random(-len, len), y + random(-len, len));
+      vertex(x + random(-len, len), y + random(-len, len));
       endShape(CLOSE);
     }
   }
