@@ -1,0 +1,57 @@
+/* Global styles */
+body {
+    background-color: #f2f2f2;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff2d55;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* make the ul element take up the full height of the viewport */
+}
+
+li {
+    margin: 20px;
+}
+
+.btn {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease-in-out;
+    padding: 20px 40px;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+}
+
+.btn-outline-dark {
+    color: #333;
+    border-color: #333;
+}
+
+.btn-outline-danger {
+    color: #ff2d55;
+    border-color: #ff2d55;
+}
