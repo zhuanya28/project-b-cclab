@@ -15,7 +15,7 @@ function setup() {
 }
 
 function draw() {
-  background(0, 30);
+  background(255, 40);
 
   cam.loadPixels(); //cam.pixels is accesible after this line!
 
@@ -36,11 +36,10 @@ function processPixels(w, h) {
       let avg = (r + g + b) / 3;
 
       beginShape();
-      stroke(0);
+      stroke(avg);
+
       if (avg > 50) {
         let len = map(avg, 0, 255, 10, 50);
-        vertex(x + random(-len, len), y + random(-len, len));
-        vertex(x + random(-len, len), y + random(-len, len));
         vertex(x + random(-len, len), y + random(-len, len));
         vertex(x + random(-len, len), y + random(-len, len));
         vertex(x + random(-len, len), y + random(-len, len));
